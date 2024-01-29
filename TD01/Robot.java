@@ -4,8 +4,8 @@ public class Robot {
     double energie;
     double cout;
 
-    double rayonAction(){
-        double res = this.energie/this.cout;
+    int rayonAction(){
+        int res = (int) Math.floor(this.energie/this.cout);
         return res;
     }
 
