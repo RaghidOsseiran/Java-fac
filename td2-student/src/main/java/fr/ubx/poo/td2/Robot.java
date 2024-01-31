@@ -49,7 +49,7 @@ public class Robot {
 
     // TODO
     // Calculate the path between the robot and the target to be reached
-    Position[] getPathTo(Position target) {
+    /*Position[] getPathTo(Position target) {
         int totalXDistance = Math.abs(target.getX() - this.position.getX());
         int totalYDistance = Math.abs(target.getY() - this.position.getY());
         int totalSteps = totalXDistance + totalYDistance;
@@ -74,6 +74,62 @@ public class Robot {
 
             res[step] = new Position(currentX, currentY);
             step++;
+        }
+        return res;
+    } */
+
+    Position[] getPathTo(Position target){
+        boolean isRest = false;
+        int totalXDistance = Math.abs(target.getX() - this.position.getX());
+        int totalYDistance = Math.abs(target.getY() - this.position.getY());
+        int minDistance = Math.min(totalXDistance, totalYDistance);
+        int maxDistance = Math.max(totalXDistance, totalYDistance);
+        int currentX = this.getPosition().getX();
+        int currentY = this.getPosition().getY();
+        Position[] res;
+
+        // movement de 1 works in all directions
+        if (minDistance == 0){
+            res = new Position[1];
+            int dx = (target.getX() > this.getPosition().getX()) ? maxDistance : -maxDistance;
+            int dy = (target.getY() > this.getPosition().getY()) ? maxDistance : -maxDistance;
+            if (totalXDistance == 0){
+                res[0] = new Position(currentX, currentY+dy);
+            } else {
+                res[0] = new Position(currentX+dx, currentY);
+            }
+            return res;
+        }
+        int reste = maxDistance % minDistance;
+        if (reste != 0) isRest = true;
+        int i = 0;
+        res = new Position[minDistance*2+1];
+        for(i = 0; i < minDistance*2; i++){
+            if (i%2 == 0){
+                // its always the minimum that has to move by 1 or -1
+                if (minDistance == totalXDistance){
+                    currentX += (target.getX() > this.getPosition().getX()) ? 1 : -1;
+                } else { // if its not the minimum then we move by maxDistance/minDistance
+                    currentX += (target.getX() > this.getPosition().getX()) ? maxDistance/minDistance : -(maxDistance/minDistance);
+                }
+            } else {
+                if (minDistance == totalYDistance){
+                    currentY += (target.getY() > this.getPosition().getY()) ? 1 : -1;
+                } else {
+                    currentY += (target.getY() > this.getPosition().getY()) ? maxDistance / minDistance : -(maxDistance / minDistance);
+                }
+            }
+            res[i] = new Position(currentX, currentY);
+        }
+        if (isRest){
+            if(minDistance == totalXDistance){
+                currentY += (target.getY() > this.getPosition().getY()) ? reste : -reste;
+            } else if (minDistance == totalYDistance){
+                currentX += (target.getX() > this.getPosition().getX()) ? reste : -reste;
+            }
+            res[i] = new Position(currentX, currentY);
+        } else {
+            res[i] = new Position(currentX, currentY);
         }
         return res;
     }

@@ -38,6 +38,7 @@ public class SpriteRobot {
         if (positionPath == null) {
             updateLocation(target); // we update the targets position
             robot.move(target);
+            this.isMoving = false;
         } else {
             Path path = new Path();
 
@@ -45,12 +46,12 @@ public class SpriteRobot {
                     robot.getPosition().getY() * ImageResource.size + ImageResource.size / 2));
             for (Position pos : positionPath) { // for( position i in positionPath)
                 // in this loop, thanks to the getPathTo methode, we first create the line with the first path
-                // which contains the horizontal distance our robot has to move, then the vertical one.
+                // which contains the horizontal distance our robot has to move, then the vertical one (in the case where we only do 2 positions in path).
                 path.getElements().add(new LineTo(pos.getX() * ImageResource.size + ImageResource.size / 2, pos.getY() * ImageResource.size + ImageResource.size / 2));
             }
 
             PathTransition ptr = new PathTransition();
-            ptr.setDuration(Duration.millis(300 * robot.distance(target)));
+            ptr.setDuration(Duration.millis(20 * robot.distance(target)));
             ptr.setPath(path);
             ptr.setNode(getImg());
 
