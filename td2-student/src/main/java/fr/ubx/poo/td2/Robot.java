@@ -57,16 +57,23 @@ public class Robot {
         int currentX = this.getPosition().getX();
         int currentY = this.getPosition().getY();
 
-        for(int i = 0; i < totalSteps; i++){
-            // we use a very basic alternation methode which is i % 2, if i is even then we move horizontally
-            // if not then vertically.
-            if (i % 2 == 0){
-                currentX += (target.getX() > this.position.getX()) ? 1 : -1; // we check to see if we have to move
-                // to the right or to the left based on the targets position and our position
+        int step = 0;
+        while (step < totalSteps) {
+            // Determine whether to move in X or Y based on the ratio of distances left to cover
+            boolean moveInX = (totalXDistance > 0) && ((step % (totalXDistance + totalYDistance) < totalXDistance) || totalYDistance == 0);
+            // we calculate the remainder when the current step number is divided by the sum of the remaining horizontal and vertical distances.
+            // the idea is to ensure that horizontal moves are made as long as the remainder is less then the total horizontal distance hat needs
+            // to be covered
+            if (moveInX) {
+                currentX += (target.getX() > this.getPosition().getX()) ? 1 : -1;
+                totalXDistance--;
             } else {
-                currentY += (target.getY() > this.position.getY()) ? 1 : -1; // same as the x
+                currentY += (target.getY() > this.getPosition().getY()) ? 1 : -1;
+                totalYDistance--;
             }
-            res[i] = new Position(currentX, currentY);
+
+            res[step] = new Position(currentX, currentY);
+            step++;
         }
         return res;
     }
