@@ -7,14 +7,12 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
-public class SpriteRobot extends Sprite {
+public class SpriteDrone extends Sprite {
 
-
-    public SpriteRobot(Robot robot) {
-        super(robot);
-        this.img = new ImageView(ImageResource.imageRobot);
-        updateLocation(robot.getPosition());
+    public SpriteDrone(Drone drone) {
+        super(drone);
+        this.img = new ImageView(ImageResource.imageDrone);
+        super.updateLocation(drone.getPosition());
     }
-
 
 }
