@@ -49,46 +49,21 @@ public class Robot {
 
     // TODO
     // Calculate the path between the robot and the target to be reached
-    /*Position[] getPathTo(Position target) {
-        int totalXDistance = Math.abs(target.getX() - this.position.getX());
-        int totalYDistance = Math.abs(target.getY() - this.position.getY());
-        int totalSteps = totalXDistance + totalYDistance;
-        Position[] res = new Position[totalSteps];
-        int currentX = this.getPosition().getX();
-        int currentY = this.getPosition().getY();
-
-        int step = 0;
-        while (step < totalSteps) {
-            // Determine whether to move in X or Y based on the ratio of distances left to cover
-            boolean moveInX = (totalXDistance > 0) && ((step % (totalXDistance + totalYDistance) < totalXDistance) || totalYDistance == 0);
-            // we calculate the remainder when the current step number is divided by the sum of the remaining horizontal and vertical distances.
-            // the idea is to ensure that horizontal moves are made as long as the remainder is less then the total horizontal distance hat needs
-            // to be covered
-            if (moveInX) {
-                currentX += (target.getX() > this.getPosition().getX()) ? 1 : -1;
-                totalXDistance--;
-            } else {
-                currentY += (target.getY() > this.getPosition().getY()) ? 1 : -1;
-                totalYDistance--;
-            }
-
-            res[step] = new Position(currentX, currentY);
-            step++;
-        }
-        return res;
-    } */
-
     Position[] getPathTo(Position target){
         boolean isRest = false;
+
+        // calculating the total X and Y distances between us and the target
         int totalXDistance = Math.abs(target.getX() - this.position.getX());
         int totalYDistance = Math.abs(target.getY() - this.position.getY());
+
+        // calculate the minimum between the 2 distances so we can use it later so equalise then number of vert and hori steps.
         int minDistance = Math.min(totalXDistance, totalYDistance);
         int maxDistance = Math.max(totalXDistance, totalYDistance);
         int currentX = this.getPosition().getX();
         int currentY = this.getPosition().getY();
         Position[] res;
 
-        // movement de 1 works in all directions
+        // we treat the cases where we only move in 1 direction so then the minimum would be 0, and dividing by 0 would cause errors.
         if (minDistance == 0){
             res = new Position[1];
             int dx = (target.getX() > this.getPosition().getX()) ? maxDistance : -maxDistance;
@@ -100,10 +75,11 @@ public class Robot {
             }
             return res;
         }
+        // in case where the total number of steps is uneven we calculate the number of extra steps in the variable res.
         int reste = maxDistance % minDistance;
         if (reste != 0) isRest = true;
         int i = 0;
-        res = new Position[minDistance*2+1];
+        res = new Position[minDistance*2+1]; // the + 1 for the case where there is a rest
         for(i = 0; i < minDistance*2; i++){
             if (i%2 == 0){
                 // its always the minimum that has to move by 1 or -1
@@ -121,16 +97,16 @@ public class Robot {
             }
             res[i] = new Position(currentX, currentY);
         }
+
+        // treating the last position for the rest
         if (isRest){
             if(minDistance == totalXDistance){
                 currentY += (target.getY() > this.getPosition().getY()) ? reste : -reste;
             } else if (minDistance == totalYDistance){
                 currentX += (target.getX() > this.getPosition().getX()) ? reste : -reste;
             }
-            res[i] = new Position(currentX, currentY);
-        } else {
-            res[i] = new Position(currentX, currentY);
         }
+        res[i] = new Position(currentX, currentY);
         return res;
     }
 

@@ -51,7 +51,7 @@ public class SpriteRobot {
             }
 
             PathTransition ptr = new PathTransition();
-            ptr.setDuration(Duration.millis(20 * robot.distance(target)));
+            ptr.setDuration(Duration.millis(100 * robot.distance(target)));
             ptr.setPath(path);
             ptr.setNode(getImg());
 
