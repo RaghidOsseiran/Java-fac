@@ -30,19 +30,10 @@ public class Main extends Application {
         stage.setScene(view.getPane().getScene());
         stage.show();
 
-
-
-
         HashMap<Vehicule, Sprite> map = new HashMap<>();
         map.put(robot, spriterobot);
         map.put(robot2, spriterobot2);
         map.put(drone, spritedrone);
-
-
-
-
-
-
 
 
         // this can be a pain in the ass if we have a bunch of vehicles
@@ -58,7 +49,7 @@ public class Main extends Application {
         });
 
         for(Map.Entry<Vehicule, Sprite> entry: map.entrySet()) {
-            Sprite sprite = entry.getValue(); // we get the vehicle / sprite pair
+            Sprite sprite = entry.getValue();
             Vehicule vehicle = entry.getKey();
             view.getPane().getChildren().addAll(sprite.getImg());
         }

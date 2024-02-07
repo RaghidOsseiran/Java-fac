@@ -11,9 +11,7 @@ public class SpriteRobot extends Sprite {
 
 
     public SpriteRobot(Robot robot) {
-        super(robot);
-        this.img = new ImageView(ImageResource.imageRobot);
-        updateLocation(robot.getPosition());
+        super(robot, new ImageView(ImageResource.imageRobot));
     }
 
 

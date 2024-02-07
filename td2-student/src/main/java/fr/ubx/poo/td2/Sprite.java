@@ -13,8 +13,10 @@ public class Sprite {
 
     protected boolean isMoving;
 
-    public Sprite(Vehicule vehicle) {
+    public Sprite(Vehicule vehicle, ImageView img) {
         this.vehicule = vehicle;
+        this.img = img;
+        updateLocation(vehicle.getPosition());
     }
 
     protected void updateLocation(Position position) {
