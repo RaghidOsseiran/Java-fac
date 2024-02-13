@@ -1,11 +1,7 @@
-package fr.ubx.poo.td2;
+package view;
 
-import javafx.animation.PathTransition;
+import model.Robot;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.util.Duration;
 
 public class SpriteRobot extends Sprite {
 

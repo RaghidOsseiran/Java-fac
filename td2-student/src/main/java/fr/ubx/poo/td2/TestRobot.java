@@ -1,5 +1,8 @@
 package fr.ubx.poo.td2;
 
+import model.Position;
+import model.Robot;
+
 public class TestRobot {
     public static void main(String[] args){
         // Run the test cases
@@ -18,16 +21,16 @@ public class TestRobot {
     private static boolean testTranslateInitialPosition(){
         Position initialPosition = new Position(4,4);
         Robot robot = new Robot("Curiosity",initialPosition, 10, 10);
-        initialPosition.translate(10,10);
-        return robot.getPosition().getX() != initialPosition.getX() && 
-            robot.getPosition().getY() != initialPosition.getY();
+//        initialPosition.translate(10,10); no more translate since TD4
+        return robot.getPosition().x() != initialPosition.x() && 
+            robot.getPosition().y() != initialPosition.y();
     }
     
     private static boolean testGetPosition(){
         Position initialPosition = new Position(4,4);
         Robot robot = new Robot("Curiosity",initialPosition, 10, 10);
         Position nextPosition = robot.getPosition();
-        nextPosition.translate(10,10);
+//        nextPosition.translate(10,10); no more translate since TD4
         return robot.getPosition() != nextPosition;
     }
 }

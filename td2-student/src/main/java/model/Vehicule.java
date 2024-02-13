@@ -1,46 +1,42 @@
-package fr.ubx.poo.td2;
+package model;
 
-public class Vehicule {
+public abstract class Vehicule {
     final double cost;
     String name;
     protected Position position; // change the visibility of position to protected so the child classes have access to this field
     double energy;
 
     public Position getPosition() {
-        return new Position(this.position);
+        return new Position(this.position.x(), this.position.y());
     }
 
     int range() {
         return (int) Math.floor(this.energy / this.cost);
     }
 
-    int distance(Position target) {
-        return 0;
-    }
+    public abstract int distance(Position target);
 
-    boolean canMove(Position target) {
+    public boolean canMove(Position target) {
         if (this.range() >= this.distance(target)) return true;
         return false;
     }
 
-    void move(Position target) {
+    public void move(Position target) {
         if (this.canMove(target)) {
             this.energy = this.energy - (this.distance(target) * this.cost);
             this.getStats(target);
-            this.position = new Position(target);
+            this.position = new Position(target.x(), target.y());
             System.out.println("Move completed: "+ this + "\n");
         }
     }
 
-    Position[] getPathTo(Position target) {
-        return null;
-    }
+    public abstract Position[] getPathTo(Position target) ;
 
-    void getStats(Position target) {
+    public void getStats(Position target) {
         System.out.println("Remaining energy: " + this.energy + " ");
         System.out.println("Cost of current movement: " + (this.distance(target) * this.cost) + " ");
-        System.out.println("Current position: (" + this.position.getX() + " , " + this.position.getY() + ")");
-        System.out.println("Target position: (" + target.getX() + " , " + target.getY() + ")");
+        System.out.println("Current position: (" + this.position.x() + " , " + this.position.y() + ")");
+        System.out.println("Target position: (" + target.x() + " , " + target.y() + ")");
     }
 
 
@@ -53,7 +49,7 @@ public class Vehicule {
 
     public Vehicule(String name, Position position, double energy, double cost) {
         this.name = name;
-        this.position = new Position(position);
+        this.position = new Position(position.x(), position.y());
         this.energy = energy;
         this.cost = cost;
     }

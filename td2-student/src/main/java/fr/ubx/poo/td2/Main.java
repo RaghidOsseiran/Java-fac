@@ -2,6 +2,15 @@ package fr.ubx.poo.td2;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.Drone;
+import model.Position;
+import model.Robot;
+import model.Vehicule;
+import view.Sprite;
+import view.SpriteDrone;
+import view.SpriteRobot;
+import view.View;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,13 +24,13 @@ public class Main extends Application {
         Robot robot = new Robot("curiosity", position, 200, 2);
         SpriteRobot spriterobot = new SpriteRobot(robot);
 
-        position.translate(2);
-        Robot robot2 = new Robot("curiosity", position, 200, 2);
+        Position position1 = new Position(5, 5);
+        Robot robot2 = new Robot("curiosity", position1, 200, 2);
         SpriteRobot spriterobot2 = new SpriteRobot(robot2);
 
         // Create the drone disinterest
-        position.translate(1);
-        Drone drone = new Drone("disinterest", position, 200, 2);
+        Position position2 = new Position(7, 7);
+        Drone drone = new Drone("disinterest", position2, 200, 2);
         SpriteDrone spritedrone = new SpriteDrone(drone);
 
         // Display the window

@@ -1,4 +1,4 @@
-package fr.ubx.poo.td2;
+package view;
 
 
 import javafx.scene.image.Image;

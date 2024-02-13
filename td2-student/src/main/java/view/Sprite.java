@@ -1,5 +1,7 @@
-package fr.ubx.poo.td2;
+package view;
 
+import model.Position;
+import model.Vehicule;
 import javafx.animation.PathTransition;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.LineTo;
@@ -7,7 +9,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
-public class Sprite {
+public abstract class Sprite {
     private Vehicule vehicule;
     protected ImageView img;
 
@@ -20,8 +22,8 @@ public class Sprite {
     }
 
     protected void updateLocation(Position position) {
-        img.setX(position.getX() * ImageResource.size);
-        img.setY(position.getY() * ImageResource.size);
+        img.setX(position.x() * ImageResource.size);
+        img.setY(position.y() * ImageResource.size);
     }
 
     public ImageView getImg() {
@@ -42,12 +44,12 @@ public class Sprite {
         } else {
             Path path = new Path();
 
-            path.getElements().add(new MoveTo(vehicule.getPosition().getX() * ImageResource.size + ImageResource.size / 2,
-                    vehicule.getPosition().getY() * ImageResource.size + ImageResource.size / 2));
+            path.getElements().add(new MoveTo(vehicule.getPosition().x() * ImageResource.size + ImageResource.size / 2,
+                    vehicule.getPosition().y() * ImageResource.size + ImageResource.size / 2));
             for (Position pos : positionPath) { // for( position i in positionPath)
                 // in this loop, thanks to the getPathTo methode, we first create the line with the first path
                 // which contains the horizontal distance our robot has to move, then the vertical one (in the case where we only do 2 positions in path).
-                path.getElements().add(new LineTo(pos.getX() * ImageResource.size + ImageResource.size / 2, pos.getY() * ImageResource.size + ImageResource.size / 2));
+                path.getElements().add(new LineTo(pos.x() * ImageResource.size + ImageResource.size / 2, pos.y() * ImageResource.size + ImageResource.size / 2));
             }
 
             PathTransition ptr = new PathTransition();
