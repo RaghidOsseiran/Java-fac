@@ -10,15 +10,12 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 public abstract class Sprite {
-    private Vehicule vehicule;
+    protected Vehicule vehicule;
     protected ImageView img;
-
     protected boolean isMoving;
 
-    public Sprite(Vehicule vehicle, ImageView img) {
-        this.vehicule = vehicle;
+    public Sprite(ImageView img) {
         this.img = img;
-        updateLocation(vehicle.getPosition());
     }
 
     protected void updateLocation(Position position) {

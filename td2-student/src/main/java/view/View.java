@@ -13,6 +13,14 @@ public class View {
     private Pane pane;
     private Scene scene;
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
     public View(int width, int height) {
         this.pane = new Pane();
         this.scene = new Scene(pane);

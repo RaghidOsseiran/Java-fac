@@ -1,20 +1,28 @@
 package fr.ubx.poo.td2;
 
+import Obstacles.DecorFactory;
+import Obstacles.SpriteDecor;
+import Obstacles.SpriteDust;
+import Obstacles.SpriteRock;
+import Vehicles.SpriteDrone;
+import Vehicles.SpriteRobot;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Drone;
 import model.Position;
 import model.Robot;
 import model.Vehicule;
-import view.Sprite;
-import view.SpriteDrone;
-import view.SpriteRobot;
-import view.View;
+import view.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Main extends Application {
+
+    private static final Random random = new Random();
+    private static float pR = 0.5f; //proba robot
+    private static float pD = 0.5f; //proba dust
 
     @Override
     public void start(Stage stage)  {
@@ -62,6 +70,47 @@ public class Main extends Application {
             Vehicule vehicle = entry.getKey();
             view.getPane().getChildren().addAll(sprite.getImg());
         }
+
+        float pR = 0.5f;
+        float pD = 0.5f;
+
+        World ourWorld = new World(view.getWidth(), view.getHeight(), pR, pD);
+
+
+        int height = ourWorld.height;
+        int width = ourWorld.width;
+
+        // on set cree des position dans des places random avec une certain proba d'etre un roche ou un dust.
+        for(int i = 0; i < height; i++){
+            Position randPos = Position.random(width, height);
+            double prob = random.nextDouble(1);
+            int choice = random.nextInt(2); // random choice, 0 pour poussiere, 1 pour roche
+            if (choice == 1){
+                if (prob < ourWorld.getPercentageRock()){
+                    ourWorld.set(randPos, 1);
+                }
+            } else {
+                if (prob < ourWorld.getPercentageDust()){
+                    ourWorld.set(randPos, 2);
+                }
+            }
+        }
+
+
+        // dessiner les sprites sur la grille
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                Position currentPos = new Position(i, j);
+                int cellValue = ourWorld.get(currentPos);
+                if (cellValue != World.EMPTY){
+                    SpriteDecor obstacle = DecorFactory.create(currentPos, cellValue);
+                    if (obstacle != null){
+                        view.getPane().getChildren().addAll(obstacle.getImg());
+                    }
+                }
+            }
+        }
+
     }
 
     public static void main(String[] args) { launch(); }
