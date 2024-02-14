@@ -46,7 +46,7 @@ public class Main extends Application {
         SpriteRobot spriterobot = new SpriteRobot(robot);
 
         Position position1 = new Position(5, 5);
-        Robot robot2 = new Robot("curiosity", position1, 200, 2, ourWorld);
+        Robot robot2 = new Robot("envy", position1, 200, 2, ourWorld);
         SpriteRobot spriterobot2 = new SpriteRobot(robot2);
 
         // Create the drone disinterest

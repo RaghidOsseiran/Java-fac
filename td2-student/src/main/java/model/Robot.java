@@ -23,9 +23,6 @@ public class Robot extends Vehicule {
     // Calculate the path between the robot and the target to be reached
     public Position[] getPathTo(Position target){
         boolean isRest = false;
-
-
-
         // calculating the total X and Y distances between us and the target
         int totalXDistance = Math.abs(target.x() - this.position.x());
         int totalYDistance = Math.abs(target.y() - this.position.y());
@@ -44,6 +41,12 @@ public class Robot extends Vehicule {
             int dy = (target.y() > this.getPosition().y()) ? maxDistance : -maxDistance;
             if (totalXDistance == 0){
                 res[0] = new Position(currentX, currentY+dy);
+//                Position tmpTarget = new Position(currentX, currentY+dy);
+//                Position ret = rockinmyWay(tmpTarget);
+//                if (ret == null) {
+//                    res[0] = new Position(tmpTarget.x(), tmpTarget.y());
+//                } else {
+//                    res[0] = new Position(ret.x(), ret.y()); }
             } else {
                 res[0] = new Position(currentX+dx, currentY);
             }
@@ -69,9 +72,6 @@ public class Robot extends Vehicule {
                     currentY += (target.y() > this.getPosition().y()) ? maxDistance / minDistance : -(maxDistance / minDistance);
                 }
             }
-            if (world.isRock(new Position(currentX, currentY))){
-                System.out.println("on a rock");
-            }
             res[i] = new Position(currentX, currentY);
         }
 
@@ -83,9 +83,6 @@ public class Robot extends Vehicule {
                 currentX += (target.x() > this.getPosition().x()) ? reste : -reste;
             }
         }
-        if (world.isRock(new Position(currentX, currentY))){
-            System.out.println("on a rock");
-        }
         res[i] = new Position(currentX, currentY);
         return res;
     }
@@ -94,6 +91,38 @@ public class Robot extends Vehicule {
     public void getStats(Position target){
         super.getStats(target);
         System.out.println("Distance between our robot and target: "+this.distance(target)+" ");
+    }
+
+
+    public Position rockinmyWay(Position target) {
+        int currentX = this.position.x();
+        int currentY = this.position.y();
+        int targetX = target.x();
+        int targetY = target.y();
+
+        // Check in the X direction
+        while (currentX != targetX) {
+            int nextX = (currentX > targetX) ? currentX - 1 : currentX + 1;
+            Position nextPos = new Position(nextX, currentY);
+            if (world.isRock(nextPos)) {
+                return new Position(currentX, currentY); // Stop before the rock
+            }
+            currentX = nextX; // Safe to move
+        }
+
+        // Check in the Y direction
+        while (currentY != targetY) {
+            int nextY = (currentY > targetY) ? currentY - 1 : currentY + 1;
+            Position nextPos = new Position(currentX, nextY);
+            if (world.isRock(nextPos)) {
+                System.out.println("next move is rock stopped at : (x "+currentX+" , y: "+currentY+" )");
+                return new Position(currentX, currentY); // Stop before the rock
+            }
+            currentY = nextY; // Safe to move
+            System.out.println("pos's until rock: (x: "+currentX+", y: "+currentY+") for robot: "+this+"");
+        }
+
+        return null; // No rocks in the way, path is clear to the target
     }
 
 
