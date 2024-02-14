@@ -1,10 +1,14 @@
 package model;
 
+import fr.ubx.poo.td2.World;
+
 public abstract class Vehicule {
     final double cost;
     String name;
     protected Position position; // change the visibility of position to protected so the child classes have access to this field
     double energy;
+
+    protected World world;
 
     public Position getPosition() {
         return new Position(this.position.x(), this.position.y());
@@ -47,10 +51,11 @@ public abstract class Vehicule {
     }
 
 
-    public Vehicule(String name, Position position, double energy, double cost) {
+    public Vehicule(String name, Position position, double energy, double cost, World world) {
         this.name = name;
         this.position = new Position(position.x(), position.y());
         this.energy = energy;
         this.cost = cost;
+        this.world = world;
     }
 }

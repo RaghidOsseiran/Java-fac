@@ -44,8 +44,13 @@ public class World {
     }
 
     public void set(Position position, int kind){
-        if (position.x() < this.height && position.y() < this.width && (kind >=0 && kind <= 2) ){
+        if (position.x() < this.width && position.y() < this.height && (kind >=0 && kind <= 2) ){
             map[position.x()][position.y()] = kind;
         }
+    }
+    public boolean isRock(Position pos){
+        if (pos.x() < 0 || pos.x() > this.width || pos.y() < 0 || pos.y() > this.height) return false;
+        if (map[pos.x()][pos.y()] == 1) return true;
+        return false;
     }
 }

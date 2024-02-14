@@ -27,25 +27,33 @@ public class Main extends Application {
     @Override
     public void start(Stage stage)  {
 
-        // Create the robot curiosity
-        Position position = new Position(4,4);
-        Robot robot = new Robot("curiosity", position, 200, 2);
-        SpriteRobot spriterobot = new SpriteRobot(robot);
-
-        Position position1 = new Position(5, 5);
-        Robot robot2 = new Robot("curiosity", position1, 200, 2);
-        SpriteRobot spriterobot2 = new SpriteRobot(robot2);
-
-        // Create the drone disinterest
-        Position position2 = new Position(7, 7);
-        Drone drone = new Drone("disinterest", position2, 200, 2);
-        SpriteDrone spritedrone = new SpriteDrone(drone);
 
         // Display the window
         View view = new View(20, 20);
         stage.setTitle("POO");
         stage.setScene(view.getPane().getScene());
         stage.show();
+
+        float pR = 0.5f;
+        float pD = 0.5f;
+
+        World ourWorld = new World(view.getWidth(), view.getHeight(), pR, pD);
+
+
+        // Create the robot curiosity
+        Position position = new Position(4,4);
+        Robot robot = new Robot("curiosity", position, 200, 2, ourWorld);
+        SpriteRobot spriterobot = new SpriteRobot(robot);
+
+        Position position1 = new Position(5, 5);
+        Robot robot2 = new Robot("curiosity", position1, 200, 2, ourWorld);
+        SpriteRobot spriterobot2 = new SpriteRobot(robot2);
+
+        // Create the drone disinterest
+        Position position2 = new Position(7, 7);
+        Drone drone = new Drone("disinterest", position2, 200, 2, ourWorld);
+        SpriteDrone spritedrone = new SpriteDrone(drone);
+
 
         HashMap<Vehicule, Sprite> map = new HashMap<>();
         map.put(robot, spriterobot);
@@ -70,11 +78,6 @@ public class Main extends Application {
             Vehicule vehicle = entry.getKey();
             view.getPane().getChildren().addAll(sprite.getImg());
         }
-
-        float pR = 0.5f;
-        float pD = 0.5f;
-
-        World ourWorld = new World(view.getWidth(), view.getHeight(), pR, pD);
 
 
         int height = ourWorld.height;

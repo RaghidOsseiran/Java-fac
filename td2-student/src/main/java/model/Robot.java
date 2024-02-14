@@ -1,9 +1,11 @@
 package model;
 
+import fr.ubx.poo.td2.World;
+
 public class Robot extends Vehicule {
 
-    public Robot(String name, Position position, double energy, double cost) {
-        super(name, position, energy, cost);
+    public Robot(String name, Position position, double energy, double cost, World world) {
+        super(name, position, energy, cost, world);
     }
 
 
@@ -21,6 +23,8 @@ public class Robot extends Vehicule {
     // Calculate the path between the robot and the target to be reached
     public Position[] getPathTo(Position target){
         boolean isRest = false;
+
+
 
         // calculating the total X and Y distances between us and the target
         int totalXDistance = Math.abs(target.x() - this.position.x());
@@ -65,6 +69,9 @@ public class Robot extends Vehicule {
                     currentY += (target.y() > this.getPosition().y()) ? maxDistance / minDistance : -(maxDistance / minDistance);
                 }
             }
+            if (world.isRock(new Position(currentX, currentY))){
+                System.out.println("on a rock");
+            }
             res[i] = new Position(currentX, currentY);
         }
 
@@ -75,6 +82,9 @@ public class Robot extends Vehicule {
             } else if (minDistance == totalYDistance){
                 currentX += (target.x() > this.getPosition().x()) ? reste : -reste;
             }
+        }
+        if (world.isRock(new Position(currentX, currentY))){
+            System.out.println("on a rock");
         }
         res[i] = new Position(currentX, currentY);
         return res;

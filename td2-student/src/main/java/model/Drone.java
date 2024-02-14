@@ -1,10 +1,12 @@
 package model;
 
+import fr.ubx.poo.td2.World;
+
 public class Drone extends Vehicule {
 
 
-    public Drone(String name, Position position, double energy, double cost){
-        super(name, position, energy, cost);
+    public Drone(String name, Position position, double energy, double cost, World world){
+        super(name, position, energy, cost, world);
     }
 
     @Override
