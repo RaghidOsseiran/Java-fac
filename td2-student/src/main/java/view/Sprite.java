@@ -35,10 +35,15 @@ public abstract class Sprite {
         to the targets position */
 
         if (positionPath == null) {
-            updateLocation(target); // we update the targets position
+            updateLocation(target);
             vehicule.move(target);
             this.isMoving = false;
         } else {
+            Position lastValidPosition = vehicule.getPosition();
+            for(Position pos: positionPath){
+                lastValidPosition = pos;
+            }
+
             Path path = new Path();
 
             path.getElements().add(new MoveTo(vehicule.getPosition().x() * ImageResource.size + ImageResource.size / 2,
@@ -50,12 +55,14 @@ public abstract class Sprite {
             }
 
             PathTransition ptr = new PathTransition();
-            ptr.setDuration(Duration.millis(100 * vehicule.distance(target)));
+            ptr.setDuration(Duration.millis(165 * vehicule.distance(target)));
             ptr.setPath(path);
             ptr.setNode(getImg());
 
+
+            Position finalLastValidPosition = lastValidPosition;
             ptr.setOnFinished(e -> {
-                vehicule.move(target);
+                vehicule.move(finalLastValidPosition);
                 this.isMoving = false;
             });
             ptr.play();

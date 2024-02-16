@@ -14,7 +14,7 @@ public class World {
     private double percentageDust;
 
 
-    private int[][] map;
+    private final int[][] map;
 
     public World(int width, int height){
         this.width = width;
@@ -49,7 +49,7 @@ public class World {
         }
     }
     public boolean isRock(Position pos){
-        if (pos.x() < 0 || pos.x() > this.width || pos.y() < 0 || pos.y() > this.height) return false;
+        if (pos.x() < 0 || pos.x() > this.width || pos.y() < 0 || pos.y() > this.height) return true;
         if (map[pos.x()][pos.y()] == 1) return true;
         return false;
     }

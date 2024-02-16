@@ -21,8 +21,8 @@ import java.util.Random;
 public class Main extends Application {
 
     private static final Random random = new Random();
-    private static float pR = 0.5f; //proba robot
-    private static float pD = 0.5f; //proba dust
+    private static final float pR = 0.5f; //proba robot
+    private static final float pD = 0.5f; //proba dust
 
     @Override
     public void start(Stage stage)  {
@@ -54,30 +54,26 @@ public class Main extends Application {
         Drone drone = new Drone("disinterest", position2, 200, 2, ourWorld);
         SpriteDrone spritedrone = new SpriteDrone(drone);
 
+        Vehicule[] vehicules = new Vehicule[3];
+        Sprite[] sprites = new Sprite[3];
 
-        HashMap<Vehicule, Sprite> map = new HashMap<>();
-        map.put(robot, spriterobot);
-        map.put(robot2, spriterobot2);
-        map.put(drone, spritedrone);
+        vehicules[0] = robot; vehicules[1] = robot2; vehicules[2] = drone;
+        sprites[0] = spriterobot; sprites[1] = spriterobot2; sprites[2] = spritedrone;
 
 
-        // this can be a pain in the ass if we have a bunch of vehicles
+
+
         view.getPane().setOnMouseClicked(e -> {
             Position target = view.getPosition(e);
-            for(Map.Entry<Vehicule, Sprite> entry: map.entrySet()){ // we loop over all the elements in the hashmap
-                Sprite sprite = entry.getValue(); // we get the vehicle / sprite pair
-                Vehicule vehicle = entry.getKey();
-                if (vehicle.canMove(target) && !vehicle.getPosition().equals(target)){ // the late binding will do its job calling the right methods in case of redefinition
-                   sprite.animateMove(target);
-                }
+                for(int i = 0; i < vehicules.length; i++){
+                    if (vehicules[i].canMove(target) && !vehicules[i].getPosition().equals(target)){ // the late binding will do its job calling the right methods in case of redefinition
+                        sprites[i].animateMove(target);
+                    }
             }
         });
 
-        for(Map.Entry<Vehicule, Sprite> entry: map.entrySet()) {
-            Sprite sprite = entry.getValue();
-            Vehicule vehicle = entry.getKey();
-            view.getPane().getChildren().addAll(sprite.getImg());
-        }
+        for(int i = 0; i < sprites.length; i++)  view.getPane().getChildren().addAll(sprites[i].getImg());
+
 
 
         int height = ourWorld.height;
