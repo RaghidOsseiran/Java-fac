@@ -80,9 +80,6 @@ public class Robot extends Vehicule {
             }
         }
         res[i] = new Position(currentX, currentY);
-        for(int j = 0 ; j < res.length; j++){
-            System.out.println("res["+j+"], "+this+": (x: "+res[j].x()+" ,y: "+res[j].y()+")");
-        }
         res = rockInMyWay(res, this.position.x(), this.position.y());
         if (res.length == 1 && this.position.equals(res[0])) return new Position[0];
         return res;
@@ -127,10 +124,6 @@ public class Robot extends Vehicule {
         }
 
         Position[] ret = tmp.toArray(new Position[0]);
-        System.out.println("new position's after rock detection: ");
-        for(int i = 0 ; i < ret.length; i++){
-            System.out.println("res["+i+"], "+this+": (x: "+ret[i].x()+" ,y: "+ret[i].y()+")");
-        }
         return ret;
     }
 }
