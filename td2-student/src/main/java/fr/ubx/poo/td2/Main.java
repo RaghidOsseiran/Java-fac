@@ -62,8 +62,6 @@ public class Main extends Application {
         sprites[0] = spriterobot; sprites[1] = spriterobot2; sprites[2] = spritedrone;
 
 
-
-
         view.getPane().setOnMouseClicked(e -> {
             Position target = view.getPosition(e);
                 for(int i = 0; i < vehicules.length; i++){
@@ -76,26 +74,10 @@ public class Main extends Application {
         for(int i = 0; i < sprites.length; i++)  view.getPane().getChildren().addAll(sprites[i].getImg());
 
 
+        ourWorld.InitWorld(); // on initialise des roches et des dust a des position random.
 
         int height = ourWorld.height;
         int width = ourWorld.width;
-
-        // on set cree des position dans des places random avec une certain proba d'etre un roche ou un dust.
-        for(int i = 0; i < height; i++){
-            Position randPos = Position.random(width, height);
-            double prob = random.nextDouble(1);
-            int choice = random.nextInt(2); // random choice, 0 pour poussiere, 1 pour roche
-            if (choice == 1){
-                if (prob < ourWorld.getPercentageRock()){
-                    ourWorld.set(randPos, 1);
-                }
-            } else {
-                if (prob < ourWorld.getPercentageDust()){
-                    ourWorld.set(randPos, 2);
-                }
-            }
-        }
-
 
         // dessiner les sprites sur la grille
         for(int i = 0; i < height; i++){
