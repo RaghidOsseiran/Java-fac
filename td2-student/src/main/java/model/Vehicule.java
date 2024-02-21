@@ -27,7 +27,7 @@ public abstract class Vehicule {
 
     public void move(Position target) {
         if (this.canMove(target)) {
-            this.energy = this.energy - (this.distance(target) * this.cost);
+            this.energy = this.energy - (this.distance(target) * this.cost); // 1,2 * cout pour la poussiere
             this.getStats(target);
             this.position = new Position(target.x(), target.y());
             System.out.println("Move completed: "+ this + "\n");
