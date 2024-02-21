@@ -7,7 +7,7 @@ import view.ImageResource;
 public class SpriteDrone extends SpriteVehicule {
 
     public SpriteDrone(Drone drone) {
-        super(drone, new ImageView(ImageResource.imageDrone));
+        super(drone, ImageResource.imageDrone);
     }
 
 }

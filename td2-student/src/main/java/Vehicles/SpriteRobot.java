@@ -8,7 +8,7 @@ public class SpriteRobot extends SpriteVehicule {
 
 
     public SpriteRobot(Robot robot) {
-        super(robot, new ImageView(ImageResource.imageRobot));
+        super(robot, ImageResource.imageRobot);
     }
 
 

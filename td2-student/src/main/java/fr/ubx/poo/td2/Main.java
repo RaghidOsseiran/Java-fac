@@ -6,6 +6,7 @@ import Obstacles.SpriteDust;
 import Obstacles.SpriteRock;
 import Vehicles.SpriteDrone;
 import Vehicles.SpriteRobot;
+import Vehicles.SpriteVehicule;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Drone;
@@ -55,7 +56,7 @@ public class Main extends Application {
         SpriteDrone spritedrone = new SpriteDrone(drone);
 
         Vehicule[] vehicules = new Vehicule[3];
-        Sprite[] sprites = new Sprite[3];
+        SpriteVehicule[] sprites = new SpriteVehicule[3];
 
         vehicules[0] = robot; vehicules[1] = robot2; vehicules[2] = drone;
         sprites[0] = spriterobot; sprites[1] = spriterobot2; sprites[2] = spritedrone;

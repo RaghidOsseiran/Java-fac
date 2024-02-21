@@ -7,6 +7,6 @@ import view.ImageResource;
 
 public class SpriteRock extends SpriteDecor {
     public SpriteRock(Position pos){
-        super(new ImageView(ImageResource.imageRock), pos);
+        super(ImageResource.imageRock, pos);
     }
 }
