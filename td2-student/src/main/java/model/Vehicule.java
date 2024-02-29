@@ -3,12 +3,13 @@ package model;
 import fr.ubx.poo.td2.World;
 
 public abstract class Vehicule {
-    final double cost;
-    String name;
-    protected Position position; // change the visibility of position to protected so the child classes have access to this field
-    double energy;
+    private final double cost;
+    private final String name;
 
-    protected World world;
+    protected Position position; // change the visibility of position to protected so the child classes have access to this field
+    private double energy;
+
+    protected final World world;
 
     public Position getPosition() {
         return new Position(this.position.x(), this.position.y());
@@ -36,7 +37,7 @@ public abstract class Vehicule {
 
     public abstract Position[] getPathTo(Position target) ;
 
-    public void getStats(Position target) {
+    protected void getStats(Position target) {
         System.out.println("Remaining energy: " + this.energy + " ");
         System.out.println("Cost of current movement: " + (this.distance(target) * this.cost) + " ");
         System.out.println("Current position: (" + this.position.x() + " , " + this.position.y() + ")");
