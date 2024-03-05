@@ -53,13 +53,13 @@ public class World {
             map[position.x()][position.y()] = kind;
         }
     }
-    public boolean isRock(Position pos){
+    public  boolean isRock(Position pos){
         if (pos.x() < 0 || pos.x() > this.width || pos.y() < 0 || pos.y() > this.height) return true;
         if (map[pos.x()][pos.y()] == 1) return true;
         return false;
     }
 
-    // on set cree des position dans des places random avec une certain proba d'etre un roche ou un dust.
+    // on cree des position dans des places random avec une certain proba d'etre un roche ou un dust.
     public void InitWorld(){
         for(int i = 0; i < height; i++){
             Position randPos = Position.random(width, height);
