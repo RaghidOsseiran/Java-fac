@@ -1,4 +1,6 @@
 package fr.ubx.poo.td6.model;
+import java.lang.reflect.Field;
+
 import static fr.ubx.poo.td6.model.Entity.*;
 public class GridRepoVar implements GridRepo {
 
@@ -14,12 +16,23 @@ public class GridRepoVar implements GridRepo {
             {GROUND, ROCK, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND, GROUND},
     };
 
+    private final Entity[][] sample2 = {
+            {GROUND, ROCK, DUST, ROCK, GROUND},
+            {GROUND, CRACK, BIGROCK, CRACK, DUST},
+            {GROUND, CRACK, CRACK, GROUND, BIGROCK},
+            {ROCK, DUST, DUST, GROUND, DUST}
+    };
+
+
     @Override
-    public Grid load(String string){
-        Grid res = new Grid(sample1.length, sample1[0].length);
-        for(int i = 0 ; i < sample1.length; i++){
-            for(int j = 0; j < sample1[0].length; j++){
-                res.set(i, j, sample1[i][j]);
+    public Grid load(String name) {
+        Entity[][] entities = getEntities(name);
+        if (entities == null)
+            return null;
+        Grid res = new Grid(entities[0].length, entities.length);
+        for(int i = 0 ; i < entities.length; i++){
+            for(int j = 0; j < entities[0].length; j++){
+                res.set(i, j, entities[i][j]);
             }
         }
         return res;
@@ -51,5 +64,18 @@ public class GridRepoVar implements GridRepo {
         System.out.println(res.toString());
         return res.toString();
     }
+
+
+    private Entity[][] getEntities(String name) {
+        try {
+            Field field = this.getClass().getDeclaredField(name);
+            return (Entity[][]) field.get(this);
+        } catch (IllegalAccessException e) {
+            return null;
+        } catch (NoSuchFieldException e) {
+            return null;
+        }
+    }
+
 
 }
