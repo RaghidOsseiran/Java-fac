@@ -18,8 +18,8 @@ public class EditorView extends BorderPane {
 
     public EditorView(Stage stage)  {
         this.stage = stage;
-        GridRepo gridRepoVar = new GridRepoVar();
-//        GridRepo gridRepoString = new GridRepoString();
+//        GridRepo gridRepoVar = new GridRepoVar();
+        GridRepo gridRepoString = new GridRepoString();
 //        GridRepo gridRepoStringRLE = new GridRepoStringRLE();
 
         // Tile picker
@@ -50,25 +50,25 @@ public class EditorView extends BorderPane {
         // Load from Java declarastion
         loadItemJ.setOnAction(e -> {
             Form form = new Form(stage, "Name field");
-            this.grid = gridRepoVar.load(form.getText());
+//            this.grid = gridRepoVar.load(form.getText());
             updateGrid(grid);
         });
 
         // Export as Java declaration
         exportItemJ.setOnAction(e -> {
-            exportDialog(gridRepoVar.export(grid));
+//            exportDialog(gridRepoVar.export(grid));
         });
 
         // Load from String
         loadItemS.setOnAction(e -> {
             Form form = new Form(stage, "Input string");
-//            this.grid = gridRepoString.load(form.getText());
+            this.grid = gridRepoString.load(form.getText());
             updateGrid(grid);
         });
 
         // Export as String
         exportItemS.setOnAction(e -> {
-//            exportDialog(gridRepoString.export(grid))
+            exportDialog(gridRepoString.export(grid));
         });
 
         // Load from compressed String
