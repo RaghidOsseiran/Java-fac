@@ -18,7 +18,7 @@ public class EditorView extends BorderPane {
 
     public EditorView(Stage stage)  {
         this.stage = stage;
-//        GridRepo gridRepoVar = new GridRepoVar();
+        GridRepo gridRepoVar = new GridRepoVar();
         GridRepo gridRepoString = new GridRepoString();
 //        GridRepo gridRepoStringRLE = new GridRepoStringRLE();
 
@@ -50,13 +50,13 @@ public class EditorView extends BorderPane {
         // Load from Java declarastion
         loadItemJ.setOnAction(e -> {
             Form form = new Form(stage, "Name field");
-//            this.grid = gridRepoVar.load(form.getText());
+            this.grid = gridRepoVar.load(form.getText());
             updateGrid(grid);
         });
 
         // Export as Java declaration
         exportItemJ.setOnAction(e -> {
-//            exportDialog(gridRepoVar.export(grid));
+            exportDialog(gridRepoVar.export(grid));
         });
 
         // Load from String

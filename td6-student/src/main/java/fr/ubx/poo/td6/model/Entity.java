@@ -16,11 +16,11 @@ public enum Entity {
 
     public char getCode() { return this.code; }
 
-    public static Entity fromCode(char c) {
+    public static Entity fromCode(char c) throws GridException {
         for (Entity entity : values()) {
             if (entity.getCode() == c)
                 return entity;
         }
-        return null;
+        throw new GridException("invalid character");
     }
 }

@@ -4,9 +4,9 @@ import static fr.ubx.poo.td6.model.Entity.*;
 public class GridRepoString implements GridRepo {
 
     final char EOL = 'x';
-    
+
     @Override
-    public Grid load(String string) {
+    public Grid load(String string) throws GridException {
         boolean isX = false;
         int index = 0;
         int height = 0;
@@ -33,8 +33,8 @@ public class GridRepoString implements GridRepo {
     @Override
     public String export(Grid grid) {
         StringBuilder res = new StringBuilder();
-        for(int i = 0 ; i < grid.getHeight(); i++){
-            for(int j = 0; j < grid.getWidth(); j++){
+        for(int j = 0 ; j < grid.getWidth(); j++){
+            for(int i = 0; i < grid.getHeight(); i++){
                 Entity val = grid.get(i, j);
                 System.out.println(val+",");
                 switch (val){
@@ -45,6 +45,7 @@ public class GridRepoString implements GridRepo {
                     case ENERGY: res.append("E"); break;
                 }
             }
+            res.append("x");
         }
         System.out.println("res: "+res.toString());
         return res.toString();
