@@ -5,8 +5,10 @@ public class Test {
 //        GridRepo test = new GridRepoVar();
 //        Grid res = test.load("...");
 //        System.out.println(test.export(res));
-        GridRepo test = new GridRepoString();
-        Grid res = test.load("BGGGxGEEGxGGBBx");
-        System.out.println(test.export(res));
+        GridRepoStringRLE test = new GridRepoStringRLE();
+//        Grid res = test.load("BBBxBBBx");
+//        System.out.println(test.export(res));
+
+        System.out.println(test.compress("BGx"));
     }
 }
