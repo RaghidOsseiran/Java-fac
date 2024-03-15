@@ -26,4 +26,9 @@ public abstract class Vehicle {
         System.out.println(getClass().getSimpleName() + " is moving");
     }
 
+
+    void honk(){
+        System.out.println("car honks....");
+        run();
+    }
 }

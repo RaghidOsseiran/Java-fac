@@ -5,9 +5,5 @@ public class Car extends Vehicle{
     }
 
 
-    void Honk(){
-        System.out.println("car honks....");
-    }
-
 
 }
