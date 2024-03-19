@@ -1,33 +1,24 @@
 package fr.ubx.poo.td6.model;
 
-public class GridRepoString implements GridRepo{
-    final char EOL = 'x';
-
+public class GridRepoString extends GridRepoStringMain implements GridRepo {
     @Override
     public Grid load(String string) throws GridException{
-        String[] gridTab = string.split(""+EOL);
-        int height = gridTab.length; int width = gridTab[0].length();
-        string = string.replace("x", "");
-        Grid res = new Grid(width, height);
-        for(int i = 0 ; i < height; i++){
-            for(int j = 0 ; j < width; j++){
-                res.set(j, i, Entity.fromCode(string.charAt(i * width + j)));
-            }
-        }
-        return res;
+        return super.load(string);
     }
 
     @Override
     public String export(Grid grid) {
-        StringBuilder res = new StringBuilder();
-        for(int i = 0; i < grid.getHeight(); i++){
-            for(int j = 0 ; j < grid.getWidth(); j++){
-                Entity entity = grid.get(j, i);
-                res.append(entity.getCode());
+        return super.export(grid);
+    }
+
+    public Grid create(int width, int height){
+        Grid res = new Grid(width, height);
+        for(int i = 0; i < res.getHeight(); i++){
+            for(int j = 0; j < res.getWidth(); j++){
+                res.set(j, i, Entity.GROUND);
             }
-            res.append("x");
         }
-        return res.toString();
+        return res;
     }
 
 
