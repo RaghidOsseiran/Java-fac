@@ -7,7 +7,11 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import javax.swing.*;
+import java.io.*;
 
 public class EditorView extends BorderPane {
     private final Stage stage;
@@ -20,7 +24,8 @@ public class EditorView extends BorderPane {
         this.stage = stage;
         GridRepo gridRepoVar = new GridRepoVar();
         GridRepo gridRepoString = new GridRepoString();
-        GridRepo gridRepoStringRLE = new GridRepoStringRLE();
+        GridRepoStringRLE gridRepoStringRLE = new GridRepoStringRLE();
+        FileChooser fileChooser = new FileChooser();
 
         // Tile picker
         this.pickerView = new PickerView();
@@ -38,12 +43,15 @@ public class EditorView extends BorderPane {
         MenuItem exportItemSZ = new MenuItem("Export as compressed string");
         MenuItem exitItem = new MenuItem("Exit");
         MenuItem newItem = new MenuItem("New map");
+        MenuItem loadItemF = new MenuItem("Load from file");
+        MenuItem exportItemF = new MenuItem("Export as file");
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Q"));
         fileMenu.getItems().addAll(
                 newItem, new SeparatorMenuItem(),
                 loadItemJ, exportItemJ, new SeparatorMenuItem(),
                 loadItemS, exportItemS, new SeparatorMenuItem(),
                 loadItemSZ, exportItemSZ, new SeparatorMenuItem(),
+                loadItemF, exportItemF, new SeparatorMenuItem(),
                 exitItem);
         menuBar.getMenus().addAll(fileMenu);
         this.setTop(menuBar);
@@ -83,6 +91,30 @@ public class EditorView extends BorderPane {
         // Export as compressed String
         exportItemSZ.setOnAction(e -> {
             exportDialog(gridRepoStringRLE.export(grid));
+        });
+
+        loadItemF.setOnAction(e -> {
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null){
+                try(Reader in = new FileReader(file)) {
+                    this.grid = gridRepoStringRLE.load(in);
+                    updateGrid(grid);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+
+        exportItemF.setOnAction(e -> {
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null){
+                try(Writer out = new FileWriter(file)){
+                    gridRepoStringRLE.export(grid, out);
+                } catch (IOException ex){
+                    throw new RuntimeException(ex);
+                }
+            }
         });
 
         // New map

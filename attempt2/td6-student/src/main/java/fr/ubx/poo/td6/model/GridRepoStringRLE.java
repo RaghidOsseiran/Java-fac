@@ -3,8 +3,9 @@ package fr.ubx.poo.td6.model;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.CharBuffer;
 
-public class GridRepoStringRLE extends GridRepoStringMain {
+public class GridRepoStringRLE extends GridRepoStringMain implements GridRepoIO {
     private boolean isNumber(char c){
         return (c >= '0' && c <= '9');
     }
@@ -95,7 +96,28 @@ public class GridRepoStringRLE extends GridRepoStringMain {
     }
 
 
+    @Override
+    public Grid load(Reader in) throws IOException {
+        StringBuilder res = new StringBuilder();
+        int data = in.read();
+        while(data != -1){
+            char dataChar = (char) data;
+            res.append(dataChar);
+            data = in.read();
+        }
+        return load(res.toString());
+    }
 
-
-
+    @Override
+    public void export(Grid grid, Writer out) throws IOException {
+        StringBuilder buffer = new StringBuilder();
+        for(int i = 0 ; i < grid.getHeight(); i++){
+            for(int j = 0 ; j < grid.getWidth(); j++){
+                buffer.append(grid.get(j, i).getCode());
+            }
+            out.write(buffer.toString());
+            out.write("x");
+            buffer.delete(0, buffer.length());
+        }
+    }
 }
