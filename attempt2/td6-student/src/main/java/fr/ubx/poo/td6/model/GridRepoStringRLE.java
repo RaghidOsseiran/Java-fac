@@ -63,37 +63,38 @@ public class GridRepoStringRLE extends GridRepoStringMain {
         int height = grid.getHeight();
         int width = grid.getWidth();
         char currentChar = EOL;
-        char counter = '1';
+        int counter = 0;
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
                 char c = grid.get(j,i).getCode();
                 if (c == currentChar){
-                    if (counter == '8'){
-                        res.append(c+""+(counter)+1);
-                        counter = '1';
-                    } else {
-                        counter += 1;
+                    counter++;
+                    if (counter == 9){ // If counter reaches 9, append and reset for current character.
+                        res.append(currentChar);
+                        res.append(counter); // Append counter if it's greater than 1
+                        counter = 0; // Reset counter but keep current character as the same.
                     }
                 } else {
-                    if (counter != '1'){
-                        res.append(currentChar+""+counter);
-                        counter = '1';
-                    } else if (currentChar != EOL) {
-                        res.append(c);
+                    if (counter > 0){ // If there was a previous sequence, append it.
+                        res.append(currentChar);
+                        if(counter > 1) res.append(counter); // Append counter if it's greater than 1
                     }
+                    currentChar = c; // Start a new character sequence.
+                    counter = 1;
                 }
-                currentChar = c;
             }
-            if (counter != '1' && counter != '0'){
-                res.append(currentChar+""+counter);
-                counter = '0';
-            } else if (currentChar != EOL) {
+            if (counter > 0){ // Append any remaining sequence before the line ends.
                 res.append(currentChar);
+                if(counter > 1) res.append(counter); // Append counter if it's greater than 1 (so we don't append 1's)
             }
             res.append("x");
+            currentChar = EOL;
+            counter = 0;
         }
         return res.toString();
     }
+
+
 
 
 
