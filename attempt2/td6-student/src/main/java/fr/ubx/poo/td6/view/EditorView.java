@@ -149,7 +149,7 @@ public class EditorView extends BorderPane {
         });
 
 
-        marksItem.setOnAction(e -> gridView);
+        marksItem.setOnAction(e -> gridView.getMarker().clear());
 
         // Exit
         exitItem.setOnAction(e -> System.exit(0));

@@ -51,4 +51,32 @@ public class Graph<T> {
         return ! visited.containsValue(false);
     }
 
+
+    private double heuristic (T src, T dest) throws RuntimeException{
+        if (src instanceof Position psrc && dest instanceof Position pdest) {
+            return Math.sqrt(Math.pow((pdest.x() - psrc.x()), 2)+Math.pow((pdest.y() - psrc.y()), 2));
+        } else {
+            throw new RuntimeException("not valid parameters to calculate heuristic");
+        }
+    }
+
+    private Position[] construct_path(Node<T> dest){
+        return null;
+    }
+
+    public Position[] aStar(Node<T> src,Node<T> dest){
+        PriorityQueue<Node<T>> queue = new PriorityQueue<>(Comparator.comparingDouble(node -> node.f));
+        queue.add(src);
+        Hashtable<Node<T>, Boolean> visited = new Hashtable<>();
+        src.g = 0;
+        src.f = src.g + heuristic(src.getData(), dest.getData());
+        while(!queue.isEmpty()){
+            Node<T> currentNode = queue.poll();
+            if (currentNode.equals(dest)) return construct_path(dest);
+            visited.put(currentNode, true);
+
+        }
+        return null;
+    }
+
 }

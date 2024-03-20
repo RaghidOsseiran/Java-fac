@@ -8,6 +8,8 @@ public class Node<T> {
     private final T data;
     private final List<Node<T>> neighbours;
 
+    public double g;
+    public double f;
 
     public Node(T data) {
         neighbours = new ArrayList<>();
