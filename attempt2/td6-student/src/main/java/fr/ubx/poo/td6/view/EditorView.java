@@ -31,12 +31,15 @@ public class EditorView extends BorderPane {
         this.pickerView = new PickerView();
         this.setRight(pickerView);
 
+        GridView gridView = new GridView(grid, pickerView);
+
         // Create menu
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("File");
 
         Menu editMenu = new Menu("Edit");
 
+        MenuItem marksItem = new MenuItem("Clear marks");
         MenuItem connectivityItem = new MenuItem("check connectivity");
         MenuItem loadItemJ = new MenuItem("Load from Java declaration");
         MenuItem exportItemJ = new MenuItem("Export as Java declaration");
@@ -50,6 +53,7 @@ public class EditorView extends BorderPane {
         MenuItem exportItemF = new MenuItem("Export as file");
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Q"));
         editMenu.getItems().add(connectivityItem);
+        editMenu.getItems().add(marksItem);
         fileMenu.getItems().addAll(
                 newItem, new SeparatorMenuItem(),
                 loadItemJ, exportItemJ, new SeparatorMenuItem(),
@@ -144,6 +148,8 @@ public class EditorView extends BorderPane {
             alert.showAndWait();
         });
 
+
+        marksItem.setOnAction(e -> gridView);
 
         // Exit
         exitItem.setOnAction(e -> System.exit(0));
