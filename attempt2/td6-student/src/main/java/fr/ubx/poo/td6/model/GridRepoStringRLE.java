@@ -24,26 +24,26 @@ public class GridRepoStringRLE extends GridRepoStringMain implements GridRepoIO 
 
 
     private Grid decompress(String string) throws GridException{
+        if (string == null) throw new GridException("Cannot operate on empty string");
         String[] rows = string.split("x");
-        if (rows == null) throw new GridException("could split String");
         StringBuilder buffer = new StringBuilder();
         StringBuilder res = new StringBuilder();
-        for(int i = 0 ; i < rows.length; i++){
-            for(int j = 0; j < rows[i].length(); j++){
-                char cur_c = rows[i].charAt(j);
-                if (j+1 < rows[i].length() && checkNums(cur_c, rows[i].charAt(j+1))){
+        for (String row : rows) {
+            for (int j = 0; j < row.length(); j++) {
+                char cur_c = row.charAt(j);
+                if (j + 1 < row.length() && checkNums(cur_c, row.charAt(j + 1))) {
                     throw new GridException("two consecutive numbers in string");
                 }
-                if (isNumber(cur_c)){
-                    char prev_c = buffer.charAt(j-1);
-                    for(char n = '0'; n < cur_c-1; n++){
+                if (isNumber(cur_c)) {
+                    char prev_c = buffer.charAt(j - 1);
+                    for (char n = '0'; n < cur_c - 1; n++) {
                         buffer.append(prev_c);
                     }
                 } else {
-                    buffer.append(rows[i].charAt(j));
+                    buffer.append(row.charAt(j));
                 }
             }
-            res.append(buffer+"x");
+            res.append(buffer).append("x");
             buffer.delete(0, buffer.length());
         }
         String[] resCheck = res.toString().split("x");
@@ -95,6 +95,8 @@ public class GridRepoStringRLE extends GridRepoStringMain implements GridRepoIO 
         return res.toString();
     }
 
+
+    // IO Interface
 
     @Override
     public Grid load(Reader in) throws IOException {

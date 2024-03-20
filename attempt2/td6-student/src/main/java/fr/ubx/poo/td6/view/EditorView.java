@@ -23,7 +23,7 @@ public class EditorView extends BorderPane {
     public EditorView(Stage stage)  {
         this.stage = stage;
         GridRepo gridRepoVar = new GridRepoVar();
-        GridRepo gridRepoString = new GridRepoString();
+        GridRepoString gridRepoString = new GridRepoString();
         GridRepoStringRLE gridRepoStringRLE = new GridRepoStringRLE();
         FileChooser fileChooser = new FileChooser();
 
@@ -35,6 +35,9 @@ public class EditorView extends BorderPane {
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("File");
 
+        Menu editMenu = new Menu("Edit");
+
+        MenuItem connectivityItem = new MenuItem("check connectivity");
         MenuItem loadItemJ = new MenuItem("Load from Java declaration");
         MenuItem exportItemJ = new MenuItem("Export as Java declaration");
         MenuItem loadItemS = new MenuItem("Load from string");
@@ -46,6 +49,7 @@ public class EditorView extends BorderPane {
         MenuItem loadItemF = new MenuItem("Load from file");
         MenuItem exportItemF = new MenuItem("Export as file");
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Q"));
+        editMenu.getItems().add(connectivityItem);
         fileMenu.getItems().addAll(
                 newItem, new SeparatorMenuItem(),
                 loadItemJ, exportItemJ, new SeparatorMenuItem(),
@@ -126,12 +130,20 @@ public class EditorView extends BorderPane {
             try {
                 int x = Integer.parseInt(parts[0]);
                 int y = Integer.parseInt(parts[1]);
-                this.grid = ((GridRepoString) gridRepoString).create(x,y);
+                this.grid = gridRepoString.create(x,y);
                 updateGrid(grid);
             } catch (NumberFormatException numberFormatException) {
                 return;
             }
         });
+
+        connectivityItem.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("We should indicate whether the map is fully connected or not!");
+            alert.showAndWait();
+        });
+
 
         // Exit
         exitItem.setOnAction(e -> System.exit(0));

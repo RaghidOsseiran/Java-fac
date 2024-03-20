@@ -1,5 +1,10 @@
 package fr.ubx.poo.td6.model;
 
+import fr.ubx.poo.td6.graph.Graph;
+import fr.ubx.poo.td6.graph.Node;
+
+import java.util.Set;
+
 public class Grid {
 
     private final int width;
@@ -28,6 +33,23 @@ public class Grid {
 
     public void set(int i, int j, Entity entity) {
         grid[j][i] = entity;
+    }
+
+
+    public Graph<Position> getGraph(){
+        Graph<Position> res = new Graph<>(); // graphe de noeuds de position
+        for(int i = 0 ; i < height; i++){
+            for(int j = 0; j < width; j++){
+                if (get(j,i).isAccessible()){
+                    res.addNode(new Position(i, j));
+                }
+            }
+        }
+        Set<Node<Position>> set = res.getNodes();
+        for(Node<Position> node: set){
+            node.checkContourage(res, node);
+        }
+        return res;
     }
 
 }

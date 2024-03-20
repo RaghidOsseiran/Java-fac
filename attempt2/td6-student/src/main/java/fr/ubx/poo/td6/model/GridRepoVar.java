@@ -29,8 +29,8 @@ public class GridRepoVar implements GridRepo {
     @Override
     public Grid load(String name) {
         Entity[][] entities = getEntities(name);
+        if (entities == null) return null;
         Grid res = new Grid(entities[0].length, entities.length);
-        if(entities == null) return null;
         for(int i = 0 ; i < entities.length; i++){
             for(int j = 0 ; j < entities[0].length; j++){
                 res.set(j, i, entities[i][j]);
@@ -46,7 +46,7 @@ public class GridRepoVar implements GridRepo {
         for(int i = 0 ; i < grid.getHeight(); i++){
             s.append("\t{");
             for(int j = 0 ; j < grid.getWidth(); j++){
-                s.append(grid.get(j, i)+",");
+                s.append(grid.get(j, i)).append(",");
             }
             s.deleteCharAt(s.length()-1); // on remove le dernier ","
             s.append("},\n");
@@ -61,9 +61,7 @@ public class GridRepoVar implements GridRepo {
         try {
             Field field = this.getClass().getDeclaredField(name);
             return (Entity[][]) field.get(this);
-        } catch (IllegalAccessException e) {
-            return null;
-        } catch (NoSuchFieldException e) {
+        } catch (IllegalAccessException | NoSuchFieldException e) {
             return null;
         }
     }

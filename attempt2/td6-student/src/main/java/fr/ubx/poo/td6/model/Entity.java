@@ -23,4 +23,11 @@ public enum Entity {
         }
         throw new GridException("Invalid code <fromCode method>");
     }
+
+
+    public boolean isAccessible(){
+        return (this != BIGROCK && this != ROCK);
+    }
+
+
 }
