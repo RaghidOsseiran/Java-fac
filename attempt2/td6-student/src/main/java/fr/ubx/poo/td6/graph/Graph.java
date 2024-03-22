@@ -15,22 +15,33 @@ public class Graph<T> {
     public Graph() {
         this.nodes = Collections.synchronizedSet(new HashSet<>());
     }
+
     public void addNode(T data) {
         nodes.add(new Node<>(data));
     }
+
     public Node<T> getNode(T data) {
         for(Node<T> cur_node: nodes){
-            if (cur_node != null && cur_node.getData() == data){
+            if (cur_node != null && cur_node.getData().equals(data)){
                 return cur_node;
             }
         }
         return null;
     }
+
     public Set<Node<T>> getNodes() {
         return cloneNodes(nodes);
     }
 
 
+
+    public void printNodes(){
+        nodes.stream().forEach(node -> {
+            Position pos = (Position)node.getData();
+            System.out.println("current node: "+ pos);
+            node.printNeigh();
+        });
+    }
 
     private void dfs(Node<T> source, Hashtable<T, Boolean> visited){
         visited.put(source.getData(), true);
@@ -52,31 +63,76 @@ public class Graph<T> {
     }
 
 
-    private double heuristic (T src, T dest) throws RuntimeException{
-        if (src instanceof Position psrc && dest instanceof Position pdest) {
-            return Math.sqrt(Math.pow((pdest.x() - psrc.x()), 2)+Math.pow((pdest.y() - psrc.y()), 2));
-        } else {
-            throw new RuntimeException("not valid parameters to calculate heuristic");
+    public void setNodesCost(Node<T> start, Node<T> dest){
+        if (start.getData() instanceof Position pos_start && dest.getData() instanceof Position pos_dest){
+            if (nodes != null && nodes.iterator().next().getData() instanceof Position){
+                for(Node<T> node: nodes){
+                    Position posNode = (Position)node.getData();
+                    // G Cost is the distance from the start node
+                    int xDist = Math.abs(posNode.x() - pos_start.x());
+                    int yDist = Math.abs(posNode.y() - pos_start.y());
+                    node.gCost = xDist+yDist;
+                    // H Cost is the distance from the dest node
+                    xDist = Math.abs(posNode.x() - pos_dest.x());
+                    yDist = Math.abs(posNode.y() - pos_dest.y());
+                    node.hCost = xDist + yDist;
+                    node.fCost = node.gCost + node.hCost;
+                }
+            }
         }
     }
 
-    private Position[] construct_path(Node<T> dest){
-        return null;
+    public int biggestFCost(){
+        int best = 0;
+        for(Node<T> node: nodes){
+            if (node != null && node.fCost > best) best = node.fCost;
+        }
+        return best;
     }
 
-    public Position[] aStar(Node<T> src,Node<T> dest){
-        PriorityQueue<Node<T>> queue = new PriorityQueue<>(Comparator.comparingDouble(node -> node.f));
-        queue.add(src);
-        Hashtable<Node<T>, Boolean> visited = new Hashtable<>();
-        src.g = 0;
-        src.f = src.g + heuristic(src.getData(), dest.getData());
-        while(!queue.isEmpty()){
-            Node<T> currentNode = queue.poll();
-            if (currentNode.equals(dest)) return construct_path(dest);
-            visited.put(currentNode, true);
-
+    private Position[] construct_path(Node<T> start , Node<T> dest){
+        ArrayList<Position> res = new ArrayList<>();
+        Node<T> currentNode = dest;
+        while(!currentNode.equals(start)){
+            currentNode = currentNode.parent;
+            if(!currentNode.equals(start)){
+                res.add((Position)currentNode.getData());
+            }
         }
-        return null;
+        Position[] pos_array = new Position[res.size()];
+        return res.toArray(pos_array);
+    }
+
+    public Position[] aStar(Node<T> start,Node<T> dest){
+        if (start.equals(dest)) return null;
+        setNodesCost(start, dest);
+        int maxBlockedStep = 0;
+        ArrayList<Node<T>> openList = new ArrayList<>();
+        Node<T> currentNode = start;
+        while (!currentNode.equals(dest) && maxBlockedStep < 300){
+            currentNode.setAsChecked();
+            openList.remove(currentNode);
+            currentNode.openNeighbours(openList);
+            if (openList.isEmpty()) return null;
+            int bestNodeIndex = 0;
+            int bestNodefCost = biggestFCost();
+            for(int i = 0; i < openList.size(); i++){
+                if(openList.get(i).fCost < bestNodefCost){
+                    bestNodeIndex = i;
+                    bestNodefCost = openList.get(i).fCost;
+                } else if (openList.get(i).fCost == bestNodefCost){
+                    if(openList.get(i).gCost < openList.get(bestNodeIndex).gCost){
+                        bestNodeIndex = i;
+                    }
+                }
+            }
+            currentNode = openList.get(bestNodeIndex);
+            maxBlockedStep++;
+        }
+        if (maxBlockedStep == 300 || !currentNode.equals(dest)){
+            return null;
+        }
+        return construct_path(start, dest);
     }
 
 }

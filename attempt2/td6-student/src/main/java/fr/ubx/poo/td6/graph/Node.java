@@ -1,6 +1,7 @@
 package fr.ubx.poo.td6.graph;
 
 import fr.ubx.poo.td6.model.Position;
+import fr.ubx.poo.td6.model.*;
 
 import java.util.*;
 
@@ -8,12 +9,52 @@ public class Node<T> {
     private final T data;
     private final List<Node<T>> neighbours;
 
-    public double g;
-    public double f;
+
+    //////////////////////////////////////////
+
+    Node<T> parent;
+    private boolean opened;
+    private boolean checked;
+    public int gCost;
+    public int hCost;
+    public int fCost;
+
+
+
+    public void setAsChecked(){
+        this.checked = true;
+    }
+
+    public void setAsOpened(){
+        this.opened = true;
+    }
+
+
+
+    private void openNode(Node<T> currentNode){
+        if (!this.opened && !this.checked){
+            this.setAsOpened();
+            this.parent = currentNode;
+        }
+    }
+
+
+    public void openNeighbours(ArrayList<Node<T>> openList){
+        for(Node<T> node: neighbours){
+            if (node != null && !node.checked){
+                node.openNode(this);
+                openList.add(node);
+            }
+        }
+    }
+
+
+    ///////////////////////////////////////////
 
     public Node(T data) {
         neighbours = new ArrayList<>();
         this.data = data;
+        this.opened = false;
     }
 
     private List<Node<T>> cloneNeigh(List<Node<T>> neigh){
@@ -29,6 +70,14 @@ public class Node<T> {
         return false;
     }
 
+    public void printNeigh(){
+        neighbours.stream().forEach(node -> {
+            Position pos = (Position)node.getData();
+            System.out.println("Neigh pos: " + pos);
+        });
+    }
+
+
     public T getData() {
         return this.data;
     }
@@ -41,23 +90,22 @@ public class Node<T> {
     }
 
 
-    public void checkContourage(Graph<Position> graph, Node<Position> node){
+
+
+    public <T extends Position> void checkContourage(Set<Node<T>> set, Node<T> node){
         Position[] adjancentNodes = {
-                new Position(node.data.x()-1, node.data.y()-1),
+//                new Position(node.data.x()-1, node.data.y()-1),
                 new Position(node.data.x(), node.data.y()-1),
-                new Position(node.data.x()+1, node.data.y()-1),
+//                new Position(node.data.x()+1, node.data.y()-1),
                 new Position(node.data.x()-1, node.data.y()),
                 new Position(node.data.x()+1, node.data.y()),
-                new Position(node.data.x()-1, node.data.y()+1),
+//                new Position(node.data.x()-1, node.data.y()+1),
                 new Position(node.data.x(), node.data.y()+1),
-                new Position(node.data.x()+1, node.data.y()+1),
+//                new Position(node.data.x()+1, node.data.y()+1),
         };
-        Set<Node<Position>> set = graph.getNodes();
-        for(Node<Position> cur_node : set){
-            if (cur_node != null){
-                for (Position adjancentNode : adjancentNodes) {
-                    if (cur_node.data.equals(adjancentNode)) node.addEdge(cur_node);
-                }
+        for(Node<T> cur_n: set){
+            for (Position adjacentNode : adjancentNodes) {
+                if (!node.equals(cur_n) && cur_n.data.equals(adjacentNode)) node.addEdge(cur_n);
             }
         }
     }

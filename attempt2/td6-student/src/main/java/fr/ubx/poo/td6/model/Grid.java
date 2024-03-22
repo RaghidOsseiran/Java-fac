@@ -41,13 +41,13 @@ public class Grid {
         for(int i = 0 ; i < height; i++){
             for(int j = 0; j < width; j++){
                 if (get(j,i).isAccessible()){
-                    res.addNode(new Position(i, j));
+                    res.addNode(new Position(j, i));
                 }
             }
         }
         Set<Node<Position>> set = res.getNodes();
         for(Node<Position> node: set){
-            node.checkContourage(res, node);
+            node.checkContourage(set, node);
         }
         return res;
     }
