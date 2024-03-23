@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 public class Test {
     public static void main(String[] args) {
         GridRepoString testGrid = new GridRepoString();
-        Grid grid = testGrid.load("GRDRGxGCBCDxGCCGBxRDDGDx");
+        Grid grid = testGrid.load("GGGGDGGGGxGGGGGGDGGxGGRCGGBGGxGRGRGGGGGxGGGGGGGGGxGGGGGGGCGxGDGDGGGGGxGGGCGDBGGxGRGGGGGGGx");
         Graph<Position> graph = grid.getGraph();
         Node<Position> start = graph.getNode(new Position(0,0));
-        Node<Position> dest = graph.getNode(new Position(2,0));
+        Node<Position> dest = graph.getNode(new Position(5,7));
         Position[] best_path = graph.aStar(start, dest);
         if (best_path == null){
             System.out.println("no shortest path");

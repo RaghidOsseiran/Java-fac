@@ -109,7 +109,7 @@ public class Graph<T> {
         int maxBlockedStep = 0;
         ArrayList<Node<T>> openList = new ArrayList<>();
         Node<T> currentNode = start;
-        while (!currentNode.equals(dest) && maxBlockedStep < 300){
+        while (!currentNode.equals(dest)){
             currentNode.setAsChecked();
             openList.remove(currentNode);
             currentNode.openNeighbours(openList);
@@ -129,7 +129,7 @@ public class Graph<T> {
             currentNode = openList.get(bestNodeIndex);
             maxBlockedStep++;
         }
-        if (maxBlockedStep == 300 || !currentNode.equals(dest)){
+        if (!currentNode.equals(dest)){
             return null;
         }
         return construct_path(start, dest);
