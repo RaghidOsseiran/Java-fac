@@ -70,14 +70,7 @@ public class Node<T> {
         return false;
     }
 
-    public void printNeigh(){
-        neighbours.stream().forEach(node -> {
-            Position pos = (Position)node.getData();
-            System.out.println("Neigh pos: " + pos);
-        });
-    }
-
-
+    
     public T getData() {
         return this.data;
     }
@@ -93,18 +86,14 @@ public class Node<T> {
 
 
     public <T extends Position> void checkContourage(Set<Node<T>> set, Node<T> node){
-        Position[] adjancentNodes = {
-//                new Position(node.data.x()-1, node.data.y()-1),
+        Position[] adjacentNodes = {
                 new Position(node.data.x(), node.data.y()-1),
-//                new Position(node.data.x()+1, node.data.y()-1),
                 new Position(node.data.x()-1, node.data.y()),
                 new Position(node.data.x()+1, node.data.y()),
-//                new Position(node.data.x()-1, node.data.y()+1),
                 new Position(node.data.x(), node.data.y()+1),
-//                new Position(node.data.x()+1, node.data.y()+1),
         };
         for(Node<T> cur_n: set){
-            for (Position adjacentNode : adjancentNodes) {
+            for (Position adjacentNode : adjacentNodes) {
                 if (!node.equals(cur_n) && cur_n.data.equals(adjacentNode)) node.addEdge(cur_n);
             }
         }

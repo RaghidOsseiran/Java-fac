@@ -34,15 +34,6 @@ public class Graph<T> {
     }
 
 
-
-    public void printNodes(){
-        nodes.stream().forEach(node -> {
-            Position pos = (Position)node.getData();
-            System.out.println("current node: "+ pos);
-            node.printNeigh();
-        });
-    }
-
     private void dfs(Node<T> source, Hashtable<T, Boolean> visited){
         visited.put(source.getData(), true);
         for(Node<T> node : source.getNeighbours()){
@@ -104,9 +95,8 @@ public class Graph<T> {
     }
 
     public Position[] aStar(Node<T> start,Node<T> dest){
-        if (start.equals(dest)) return null;
+        if (start.equals(dest) && !isConnected()) return null;
         setNodesCost(start, dest);
-        int maxBlockedStep = 0;
         ArrayList<Node<T>> openList = new ArrayList<>();
         Node<T> currentNode = start;
         while (!currentNode.equals(dest)){
@@ -127,7 +117,6 @@ public class Graph<T> {
                 }
             }
             currentNode = openList.get(bestNodeIndex);
-            maxBlockedStep++;
         }
         if (!currentNode.equals(dest)){
             return null;
