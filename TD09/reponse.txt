@@ -1,0 +1,10 @@
+1) Oui c'est possible d'ajouter plusieurs points identiques a une liste de type ArrayListe et LinkedList.
+4) Pour modifier l'element au milieu de la liste 100000 fois pour une arrayList sa prend environ 3902 microseconde car l'acces dans un tableau d'un element a n'importe qu'elle indice
+est en O(1), alors que pour les liste on est obliger de parcourir toute la liste pour trouver l'element au milieu donc 0(n), le temps pour la liste est de 550109 microseconde.
+
+
+
+Trees and generics:
+
+The Predicate interface is a functionnal interface with a single methode to implement which is the methode test, it can be used to filter out certain elements of a collection to
+create another
